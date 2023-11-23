@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins
+  namespace: argo-cd
+spec:
+  destination:
+    name: ''
+    namespace: workflow
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://charts.jenkins.io/'
+    targetRevision: 4.7.4
+    chart: jenkins
+    helm:
+      values: |
+        controller:
+          jenkinsUriPrefix: /jenkins
+          ingress:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+              nginx.ingress.kubernetes.io/ssl-redirect: "false"
+              nginx.ingress.kubernetes.io/add-base-url: "true"
+            paths:
+              - path: /jenkins
+                pathType: Prefix
+                backend:
+                  service:
+                    name: jenkins
+                    port:
+                      name: http
+          installPlugins:
+            - kubernetes:4054.v2da_8e2794884
+            - workflow-aggregator:596.v8c21c963d92d
+            - git:5.2.0
+            - configuration-as-code:1714.v09593e830cfa
+            - blueocean:1.27.8
+            - role-strategy:689.v731678c3e0eb_
+          admin:
+            existingSecret: jenkins-admin-secret
+            userKey: username
+            passwordKey: password
+        persistence:
+          enabled: true
+  sources: []
+  project: workflow
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: resources
+  namespace: argo-cd
+spec:
+  destination:
+    name: ''
+    namespace: workflow
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: resources
+    repoURL: 'https://github.com/Hiroshi-N-S/proj-workflow.git'
+    targetRevision: develop
+  sources: []
+  project: workflow
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: false
+      selfHeal: false

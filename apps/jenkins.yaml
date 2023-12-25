@@ -44,6 +44,7 @@ spec:
             passwordKey: password
         persistence:
           enabled: true
+          existingClaim: jenkins-pvc
   sources: []
   project: workflow
   syncPolicy:

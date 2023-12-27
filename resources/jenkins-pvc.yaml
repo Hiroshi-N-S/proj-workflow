@@ -10,4 +10,4 @@ spec:
       storage: 8Gi
   accessModes:
     - ReadWriteOnce
-  storageClassName: synology-smb-storage
+  storageClassName: synology-nfs-storage

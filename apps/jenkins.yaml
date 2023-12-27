@@ -44,7 +44,7 @@ spec:
             passwordKey: password
         persistence:
           enabled: true
-          storageClass: synology-smb-storage
+          existingClaim: jenkins-pvc
   sources: []
   project: workflow
   syncPolicy:

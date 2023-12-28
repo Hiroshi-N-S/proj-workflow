@@ -5,7 +5,6 @@ metadata:
   name: jenkins-pvc
   namespace: workflow
 spec:
-  volumeName: jenkins-pv
   resources:
     requests:
       storage: 8Gi
